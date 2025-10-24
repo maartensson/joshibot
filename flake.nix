@@ -28,8 +28,8 @@
     nixosModules.default = {config, lib, pkgs, ...}: let
       myPkg = self.packages.${pkgs.system}.default;
     in{
-      options.services.bounceland= {
-        enable = lib.mkEnableOption "Enable bounceland service";
+      options.services.joshibot = {
+        enable = lib.mkEnableOption "Enable joshibot service";
 
         configFile = lib.mkOption {
           type = lib.types.path;
@@ -37,9 +37,9 @@
         };
       };
 
-      config = lib.mkIf config.services.bounceland.enable {
-        systemd.services.bounceland= {
-          description = "Bounceland Webserver";
+      config = lib.mkIf config.services.joshibot.enable {
+        systemd.services.joshibot= {
+          description = "Joshibot Webserver";
           wantedBy = ["multi-user.target"];
           after = ["network.target"];
           serviceConfig = {
@@ -48,7 +48,7 @@
             Type = "simple";
             DynamicUser = "yes";
             Environment = [
-              "CONFIG_FILE=${ toString config.services.bounceland.configFile.path }"
+              "CONFIG_FILE=${ toString config.services.joshibot.configFile.path }"
             ];
           };
         };
