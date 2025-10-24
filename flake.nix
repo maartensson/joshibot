@@ -47,8 +47,11 @@
             Restart = "always";
             Type = "simple";
             DynamicUser = "yes";
+            LoadCredential = [
+              "config.json:${ toString config.services.joshibot.configFile.path }"
+            ];
             Environment = [
-              "CONFIG_FILE=${ toString config.services.joshibot.configFile.path }"
+              "CONFIG_FILE=/run/credentials/%n/config.json"
             ];
           };
         };
