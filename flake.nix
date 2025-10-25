@@ -15,10 +15,6 @@
       version = "0.0.1";
       src = ./.;
       format = "setuptools";
-      propagatedBuildInputs = with pkgs.python3Packages; [
-        python-telegram-bot
-        apscheduler
-      ];
     };
 
     apps.default = {
@@ -44,7 +40,10 @@
           wantedBy = ["multi-user.target"];
           after = ["network.target"];
           serviceConfig = {
-            ExecStart = "${pkgs.python3}/bin/python ${myPkg}/bin/bot.py";
+            ExecStart = "${pkgs.python3.withPackages (ps: with ps; [
+              python-telegram-bot
+              apscheduler
+            ])}/bin/python ${myPkg}/bin/bot.py";
             Restart = "always";
             Type = "simple";
             DynamicUser = "yes";
