@@ -14,7 +14,7 @@
       pname = "bounceland";
       version = "0.0.1";
       src = ./.;
-      format = "setuptools";  # ensures setup.py is used
+      format = "setuptools";
       propagatedBuildInputs = with pkgs.python3Packages; [
         python-telegram-bot
       ];
@@ -43,7 +43,7 @@
           wantedBy = ["multi-user.target"];
           after = ["network.target"];
           serviceConfig = {
-            ExecStart = "${myPkg}/bin/bot";
+            ExecStart = "${pkgs.python3}/bin/python ${myPkg}/bin/config.py";
             Restart = "always";
             Type = "simple";
             DynamicUser = "yes";
