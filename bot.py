@@ -16,7 +16,30 @@ from telegram.ext import (
     MessageHandler,
     filters,
 )
-from config import settings
+from dataclasses import dataclass
+
+@dataclass
+class Settings:
+    telegram_bot_token: str
+    chat_id: int
+    owner_id: int
+    thread_id_bounceland: int
+    thread_id_meal: int
+    meal_file: str
+    meal_message_file: str
+    bounce_file: str
+    bounce_message_file: str
+    bounce_csv: str
+    update_interval: float
+    scheduler_timezone: str
+    meal_poll_hour: int
+    meal_poll_minute: int
+    meal_poll_day: str
+
+
+with open(os.getenv("CONFIG_FILE")) as f:
+    data = json.load(f)
+    settings = Settings(**data)
 
 
 LAST_UPDATE_TIME = 0

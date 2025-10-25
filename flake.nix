@@ -44,7 +44,7 @@
           wantedBy = ["multi-user.target"];
           after = ["network.target"];
           serviceConfig = {
-            ExecStart = "${pkgs.python3}/bin/python ${myPkg}/bin/config.py";
+            ExecStart = "${pkgs.python3}/bin/python ${myPkg}/bin/bot.py";
             Restart = "always";
             Type = "simple";
             DynamicUser = "yes";
