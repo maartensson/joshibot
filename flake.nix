@@ -34,12 +34,11 @@
             Environment = [
               "CONFIG_FILE=/run/credentials/%n/config.json"
 
-              "STATE_DIR=/var/lib/joshibot"
-              "MEAL_FILE=$STATE_DIR/polls_meal.json"
-              "MEAL_MESSAGE_FILE=$STATE_DIR/meal_message_id.json"
-              "BOUNCE_FILE=$STATE_DIR/bounceland.json"
-              "BOUNCE_MESSAGE_FILE=$STATE_DIR/bounceland_message_id.json"
-              "BOUNCE_CSV=$STATE_DIR/bounceland_data.csv"
+              "MEAL_FILE=/var/lib/joshibot/polls_meal.json"
+              "MEAL_MESSAGE_FILE=/var/lib/joshibot/meal_message_id.json"
+              "BOUNCE_FILE=/var/lib/joshibot/bounceland.json"
+              "BOUNCE_MESSAGE_FILE=/var/lib/joshibot/bounceland_message_id.json"
+              "BOUNCE_CSV=/var/lib/joshibot/bounceland_data.csv"
             ];
           };
         };
