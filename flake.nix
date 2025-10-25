@@ -13,25 +13,33 @@
       };
 
       config = lib.mkIf config.services.joshibot.enable {
-        systemd.services.joshibot = let 
-          python = pkgs.python3.withPackages (ps: with ps; [
-            python-telegram-bot
-            apscheduler
-          ]);
-        in {
+        systemd.services.joshibot = {
           description = "Joshibot Webserver";
           wantedBy = ["multi-user.target"];
           after = ["network.target"];
-          serviceConfig = {
+          serviceConfig = let 
+            python = pkgs.python3.withPackages (ps: with ps; [
+              python-telegram-bot
+              apscheduler
+            ]);
+          in {
             ExecStart = "${python}/bin/python ${ ./bot.py }";
             Restart = "always";
             Type = "simple";
             DynamicUser = "yes";
+            StateDirectory = "joshibot";
             LoadCredential = [
               "config.json:${ toString config.services.joshibot.configFile }"
             ];
             Environment = [
               "CONFIG_FILE=/run/credentials/%n/config.json"
+
+              "STATE_DIR=/var/lib/joshibot"
+              "MEAL_FILE=$STATE_DIR/polls_meal.json"
+              "MEAL_MESSAGE_FILE=$STATE_DIR/meal_message_id.json"
+              "BOUNCE_FILE=$STATE_DIR/bounceland.json"
+              "BOUNCE_MESSAGE_FILE=$STATE_DIR/bounceland_message_id.json"
+              "BOUNCE_CSV=$STATE_DIR/bounceland_data.csv"
             ];
           };
         };

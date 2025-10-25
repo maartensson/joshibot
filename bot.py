@@ -18,6 +18,7 @@ from telegram.ext import (
 )
 from dataclasses import dataclass
 
+
 @dataclass
 class Settings:
     telegram_bot_token: str
@@ -39,7 +40,25 @@ class Settings:
 
 with open(os.getenv("CONFIG_FILE")) as f:
     data = json.load(f)
-    settings = Settings(**data)
+
+
+settings = Settings(
+    telegram_bot_token=data["telegram_bot_token"],
+    chat_id=data["chat_id"],
+    owner_id=data["owner_id"],
+    thread_id_bounceland=data["thread_id_bounceland"],
+    thread_id_meal=data["thread_id_meal"],
+    meal_file=os.environ["MEAL_FILE"],
+    meal_message_file=os.environ["MEAL_MESSAGE_FILE"],
+    bounce_file=os.environ["BOUNCE_FILE"],
+    bounce_message_file=os.environ["BOUNCE_MESSAGE_FILE"],
+    bounce_csv=os.environ["BOUNCE_CSV"],
+    update_interval=data["update_interval"],
+    scheduler_timezone=data["scheduler_timezone"],
+    meal_poll_hour=data["meal_poll_hour"],
+    meal_poll_minute=data["meal_poll_minute"],
+    meal_poll_day=data["meal_poll_day"],
+)
 
 
 LAST_UPDATE_TIME = 0
