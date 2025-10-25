@@ -1,4 +1,4 @@
-import json
+import json, os
 
 with open(os.getenv('CONFIG_FILE')) as f:
     settings = json.load(f)
