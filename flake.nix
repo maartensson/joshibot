@@ -17,6 +17,7 @@
       format = "setuptools";
       propagatedBuildInputs = with pkgs.python3Packages; [
         python-telegram-bot
+        apscheduler
       ];
     };
 
