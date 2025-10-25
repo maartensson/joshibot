@@ -783,7 +783,6 @@ async def cmd_bounceland(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # Main
 # -----------------------------
 async def main():
-    logging.info(settings.model_dump())
     # ensure files
     _ensure_file(settings.meal_file, {"polls": {}})
     _ensure_file(settings.meal_message_file, {})
