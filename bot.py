@@ -56,6 +56,8 @@ logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s", level=lo
 # File Helpers
 # -----------------------------
 def _ensure_file(path, default):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+
     if not os.path.exists(path):
         with open(path, "w", encoding="utf-8") as f:
             json.dump(default, f)
@@ -72,6 +74,8 @@ def load_json(path):
 
 
 def save_json(path, data):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+
     with open(path, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 

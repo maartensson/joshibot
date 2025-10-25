@@ -1,30 +1,8 @@
 {
   description = "bounceland telegram bot joshi";
 
-  inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
-    flake-utils.url = "github:numtide/flake-utils";
-  };
-
-  outputs = {self, nixpkgs, flake-utils, ...}:
-  flake-utils.lib.eachDefaultSystem (system: let 
-    pkgs = nixpkgs.legacyPackages.${system};
-  in {
-    packages.default = pkgs.python3Packages.buildPythonPackage {
-      pname = "bounceland";
-      version = "0.0.1";
-      src = ./.;
-      format = "setuptools";
-    };
-
-    apps.default = {
-      type = "app";
-      program = "${self.packages.${system}.default}/bin/bot";
-    };
-  }) // {
-    nixosModules.default = {config, lib, pkgs, ...}: let
-      myPkg = self.packages.${pkgs.system}.default;
-    in{
+  outputs = { ... } : {
+    nixosModules.default = {config, lib, pkgs, ...}: {
       options.services.joshibot = {
         enable = lib.mkEnableOption "Enable joshibot service";
 
@@ -35,15 +13,17 @@
       };
 
       config = lib.mkIf config.services.joshibot.enable {
-        systemd.services.joshibot= {
+        systemd.services.joshibot = let 
+          python = pkgs.python3.withPackages (ps: with ps; [
+            python-telegram-bot
+            apscheduler
+          ]);
+        in {
           description = "Joshibot Webserver";
           wantedBy = ["multi-user.target"];
           after = ["network.target"];
           serviceConfig = {
-            ExecStart = "${pkgs.python3.withPackages (ps: with ps; [
-              python-telegram-bot
-              apscheduler
-            ])}/bin/python ${myPkg}/bin/bot.py";
+            ExecStart = "${python}/bin/python ${ ./bot.py }";
             Restart = "always";
             Type = "simple";
             DynamicUser = "yes";
@@ -59,5 +39,3 @@
     };
   };
 }
-
-
