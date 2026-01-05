@@ -7,7 +7,7 @@
         enable = lib.mkEnableOption "Enable joshibot service";
 
         configFile = lib.mkOption {
-          type = lib.types.path;
+          type = lib.types.str;
           description = "the path to the environment file";
         };
       };
